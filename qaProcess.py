@@ -1,3 +1,5 @@
+import preProcess
+
 def defineQuestionTerm(preProcess):
     questionSearch = ''
     for terms in preProcess:
@@ -32,14 +34,14 @@ def searchWord(text,paragraph,lemma):
         else:
             texts.append(text)  
         par = paragraph          
-        sentences = punktSentenceTokenizer(par)
+        sentences = preProcess.punktSentenceTokenizer(par)
         s_ind = 0
         rateList = []
         textList = []
         for sentence in sentences:         
-            sent = punctionProcess(str(sentence))
+            sent = preProcess.punctionProcess(str(sentence))
             if lemma == True:
-                sent = lemmaProcess(sent)
+                sent = preProcess.lemmaProcess(sent)
                 sentence = sent
             c = 0
             qaText = [] 
