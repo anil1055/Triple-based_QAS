@@ -49,58 +49,6 @@ def lemmaProcess(sentence):
 
     return sentence
 
-import spacy
-from spacy import displacy
-from collections import Counter
-import en_core_web_sm
-
-nlp = en_core_web_sm.load()
-#NER process for preprocessing
-def NerRecognition(article, answ_list):
-    article = nlp(article)
-    
-    #labels = [x.label_ for x in article.ents]
-    #Counter(labels)
-    #sentences = [x for x in article.sents]
-    #print(dict([(str(x), x.label_) for x in nlp(str(sentences[0])).ents]))
-
-    #Removed number delete process: number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] ner_list = [] delete = [] for ner in ner_: ner_list.append(ner) for sayi in number: if str(ner).find(sayi) != -1: delete.append(ner) break for sil in delete: ner_list.remove(sil)
-    items = [x.text for x in article.ents]   
-    ner_list = Counter(items).keys()
-    sw = stopwords.words('english') 
-    for ner in ner_list:
-        if str(ner).find('\'s') != -1:
-            indx = str(ner).index('\'s')
-            ner = ner[:indx]
-        if str(ner).find(' ') != -1:                  
-            ner_ = str(ner).split(' ')
-            islow = False
-            if str(ner_[len(ner_)-1]).islower() == True:
-                islow = True
-            try:
-                ind = sw.index(ner_[0])
-            except:
-                uri = ""
-                for i in ner_:
-                    if islow == False:
-                        try:
-                            try:
-                                ner_list.index(i)
-                            except:
-                                ind = answ_list.index(i)
-                                answ_list.remove(str(i).strip())
-                            uri += str(i)  + "_" 
-                        except:
-                            uri += str(i) + "_"                            
-                if uri != "": answ_list.append(str(uri[:-1]))
-        else:
-            for ans in answ_list:
-                if ans.find(ner) != -1:
-                    answ_list.remove(ans)
-                    answ_list.append(ner)
-                    break
-    return answ_list
-
 
 #developed solve for sentence tokenizer error
 def solveSentenceTokenizer(sentences):
